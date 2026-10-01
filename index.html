@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>چت‌بات</title>
+<title>meov2ray ai</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -207,51 +207,38 @@
     margin-bottom: 14px;
     display: flex;
     flex-direction: column;
+    gap: 16px;
   }
 
   .message-wrapper {
     display: flex;
     flex-direction: column;
-    margin-bottom: 16px;
-    max-width: 78%;
+    max-width: 85%;
+    width: fit-content;
   }
-  .message-wrapper.user { align-self: flex-end; align-items: flex-end; }
-  .message-wrapper.bot { align-self: flex-start; align-items: flex-start; }
+  .message-wrapper.user { align-self: flex-start; }
+  .message-wrapper.bot { align-self: flex-end; }
 
   .message {
-    padding: 11px 18px;
-    border-radius: 999px;
+    padding: 14px 20px;
+    border-radius: 18px;
     white-space: pre-wrap;
-    word-wrap: break-word;
-    line-height: 1.6;
+    word-break: break-word;
+    line-height: 1.7;
     font-size: 14.5px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
   }
   .user .message {
     background: linear-gradient(135deg, var(--violet), var(--cyan));
     color: white;
-    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 4px;
   }
   .bot .message {
     background: var(--surface-strong);
     border: 1px solid var(--border);
     color: var(--text);
-    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 4px;
   }
-
-  .copy-btn {
-    margin-top: 5px;
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    font-size: 11px;
-    padding: 3px 12px;
-    border-radius: 999px;
-    cursor: pointer;
-    font-family: inherit;
-    transition: color 0.15s ease, border-color 0.15s ease;
-  }
-  .copy-btn:hover { color: var(--text); border-color: var(--text-dim); }
-  .copy-btn.copied { color: var(--cyan); border-color: var(--cyan); }
 
   .input-group {
     display: flex;
@@ -317,7 +304,7 @@
       z-index: 25;
     }
     .sidebar-backdrop.open { display: block; }
-    .message-wrapper { max-width: 90%; }
+    .message-wrapper { max-width: 95%; }
   }
 </style>
 </head>
@@ -366,7 +353,6 @@
   window.addEventListener('resize', applyHeight);
 })();
 
-// تشخیص اینکه واقعاً داخل تلگرام هستیم یا داخل یه مرورگر معمولی (کروم و ...)
 const IS_TELEGRAM = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
 
 const STORAGE_KEY = 'chatbot_multichat_v1';
@@ -494,37 +480,13 @@ function renderBubble(role, text) {
   bubble.className = 'message';
   bubble.textContent = text;
 
-  const copyBtn = document.createElement('button');
-  copyBtn.className = 'copy-btn';
-  copyBtn.textContent = '📋 کپی';
-  copyBtn.onclick = () => copyText(text, copyBtn);
-
   wrapper.appendChild(bubble);
-  wrapper.appendChild(copyBtn);
   chatBox.appendChild(wrapper);
 }
 
 function renderAll() {
   renderSidebar();
   renderMessages();
-}
-
-function copyText(text, btn) {
-  navigator.clipboard.writeText(text).then(() => {
-    const original = btn.textContent;
-    btn.textContent = '✅ کپی شد';
-    btn.classList.add('copied');
-    setTimeout(() => {
-      btn.textContent = original;
-      btn.classList.remove('copied');
-    }, 1500);
-  }).catch(() => {
-    if (IS_TELEGRAM && window.Telegram.WebApp.showAlert) {
-      window.Telegram.WebApp.showAlert('کپی نشد، مرورگرت اجازه نداد.');
-    } else {
-      alert('کپی نشد، مرورگرت اجازه نداد.');
-    }
-  });
 }
 
 function scrollToBottom() {
