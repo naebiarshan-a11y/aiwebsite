@@ -5,7 +5,7 @@ import json
 
 app = Flask(__name__)
 
-GEMINI_API_KEY = "توکن جمنای"
+GEMINI_API_KEY = "توکن جمنای و اینجا بذارید"
 MODEL_NAME = "gemini-3.5-flash-lite"  # مدل سبک و با quota رایگان بیشتر
 
 
